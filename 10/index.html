@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Тестирование пользователя с использованием технологии AJAX</title>
+    <!--    <link rel=stylesheet href="../lab.css">-->
+    <script>
+        let name = '';
+
+        answer = '' //Фамилия и ответ пользователя
+        xhr = new XMLHttpRequest();
+
+        function subm1() {
+            name = prompt('Введите фамилию', '');
+            if (name) {
+                xhr.open('GET', 'http://localhost:8000/cgi-bin/handlers.py?r=' + Math.random() + '&name=' + name);
+                xhr.send(null);
+            } else alert("Имя не введено");
+        }
+
+        function subm2() {
+            let answer = prompt('Введите ответ в виде трех двоичных цифр', '');
+            if (answer) {
+                xhr.open('GET', 'http://zykov/PYTHON/testing.py?r=' + Math.random() + '&answer=' + answer);
+                xhr.send(null);
+            } else alert("Ответ не указан")
+        }
+
+
+        xhr.onload = function () {
+            let myDiv = document.getElementById("div");
+            let resp = this.responseText;
+            myDiv.innerHTML = "<p><span style='color:red;font-size:5.5mm'>" + resp + "</span>";
+        }
+        xhr.onerror = function () {
+            let myDiv = document.getElementById("div");
+            myDiv.innerHTML += " Ошибка получения данных из сервера";
+        }
+    </script>
+</head>
+<body>
+<h1>Тестирование</h1>
+<button onclick="subm1()">Начать <br>тестирование</button>
+<button onclick="subm2()">Указать <br>ответ</button>
+<div id="div"/>
+</body>
+</html>
+
